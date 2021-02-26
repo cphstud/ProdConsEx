@@ -16,12 +16,9 @@ class Consumer implements Runnable {
 
     private void printSum() throws InterruptedException {
         int totalSum=0;
-        System.out.println(Thread.currentThread().getName() + " in printer" );
         for (int i : sumList) {
-            System.out.println(Thread.currentThread().getName() + " in loop" + i );
            totalSum +=sumList.take();
         }
-        System.out.println("Sum: " + totalSum);
     }
 
     @Override
@@ -29,7 +26,7 @@ class Consumer implements Runnable {
         while (true) {
             try {
                 int fibNum = inputFromFibbQueue.take();
-                System.out.println("Consumed: " + fibNum);
+                System.out.println(Col.ANSI_PURPLE+Thread.currentThread().getName()+" Consumed: " + fibNum);
                 sumList.add(fibNum);
                 printSum();
             } catch (InterruptedException e) {

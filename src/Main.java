@@ -23,16 +23,22 @@ class Producer implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("Staerdfafsd" + fibbNums.size());
+        String col="";
+        String name = Thread.currentThread().getName();
+        switch (name) {
+            case "Producer1":col=Col.ANSI_CYAN;break;
+            case "Producer2":col=Col.ANSI_GREEN;break;
+            case "Producer3":col=Col.ANSI_RED;break;
+            case "Producer4":col=Col.ANSI_BLUE;break;
+            default:col=Col.ANSI_BLACK;
+        }
+        System.out.println(col + Thread.currentThread().getName() + " and " + name + " is crunching " + fibbNums.size());
         while (true) {
             try {
                 int number = fibbNums.take();
-                System.out.println("go for" + number);
                 int itemProduced = fibRecurs(number);
-                //int itemProduced = fibRecurs(12);
-                //int itemProduced = 12;
                 numsForFibb.put(itemProduced);
-                System.out.println("Produced: "+ itemProduced+ " -- QueueSize: "+fibbNums.size());
+                System.out.println(col+Thread.currentThread().getName()+ " Produced: "+ itemProduced+ " -- QueueSize: "+fibbNums.size());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -59,36 +65,12 @@ public class Main {
         p2.setName("Producer2");
         p3.setName("Producer3");
         p4.setName("Producer4");
-        c.setName("Consumer");
+        c.setName("CONSUMER");
         p1.start();
         p2.start();
         p3.start();
         p4.start();
         c.start();
-
-
-        /*
-        Thread t = new Thread(new Consumer(queue));
-        t.start();
-
-        produce(queue);
-        produce(queue);
-        produce(queue);
-        produce(queue);
-        produce(queue);
-        produce(queue);
-//        produce(queue);
-//        produce(queue);
-//        produce(queue);
-
-
-
-        t.join(10000);
-        t.interrupt();
-        t.join();
-        System.out.println("All items Produced and Consumed");
-
-         */
 
     }
 }
